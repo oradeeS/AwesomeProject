@@ -16,7 +16,7 @@ const RootStack = createStackNavigator();
 import TodoTab from './navigations/TodoTab';
 
 import { fb } from './db_config';
-
+import MapTab from './navigations/MapTab';
 export default function App() {
   return (
     <NavigationContainer>
@@ -36,6 +36,11 @@ export default function App() {
                     name="TodoTab" 
                     component={TodoTab} 
                     options={{  title: 'Todo Tab'   }} 
+                    />
+                <RootStack.Screen 
+                    name="MapTab" 
+                    component={MapTab} 
+                    options={{  title: 'Location and Map'   }} 
                     />                        
             </RootStack.Navigator>
     </NavigationContainer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function TodoItem(props) {    
@@ -23,11 +23,36 @@ export default function TodoItem(props) {
                     value={props.item.title}   
                 />                                  
             </View>
+            <TouchableOpacity style={{  flex : 3, alignItems : 'center' }} 
+                onPress={() => {
+                    console.log("Pressed");
+                    let images = [
+                        { 
+                            //url: props.item.title,
+                            url: props.item.image_url,
+                            props: { } 
+                        }
+                    ];
+                    props.setImages(images);
+                    props.setModalVisible(true);
+                }}
+                >
+                <Image source={{ uri : props.item.image_url }} style={{width: 40, height: 40}} resizeMode="cover"/>
+            </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => props.onDelete(props.item._id) }
                 style={{  flex : 1 }} >
                 <Ionicons name="md-trash" size={23} />
             </TouchableOpacity>
+            <TouchableOpacity
+               onPress={() => props.navigation.navigate('UploadFileScreen', {
+                   todo_id : props.item._id ,
+                   todo_title : props.item.title , 
+                   todo_image_url : props.item.image_url , 
+               }) }
+               style={{  flex : 1 }} >
+               <Ionicons name="md-build" size={23} />
+           </TouchableOpacity>
         </View>             
     );
 }

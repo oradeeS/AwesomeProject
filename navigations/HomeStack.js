@@ -6,6 +6,8 @@ import HomeScreen from '../screens/HomeScreen';
 import NetworkCreateScreen from '../screens/NetworkCreateScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import UploadFileScreen from '../screens/UploadFileScreen';
+import AuthLoginScreen from '../screens/AuthLoginScreen';
+import AuthRegisterScreen from '../screens/AuthRegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +38,16 @@ export default function HomeStack() {
                 name="UploadFileScreen" 
                 component={UploadFileScreen} 
                 options={{ title: 'Upload File' }} 
+                />
+            <Stack.Screen 
+                name="AuthRegisterScreen" 
+                component={AuthRegisterScreen} 
+                options={{ title: 'Register' }} 
+                /> 
+            <Stack.Screen 
+                name="AuthLoginScreen" 
+                component={AuthLoginScreen} 
+                options={{ title: 'Login' }} 
                 />
             
         </Stack.Navigator>

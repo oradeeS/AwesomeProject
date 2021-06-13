@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from 'react';
+import React , { useState, useEffect, useContext } from 'react';
 import { View , TouchableOpacity, FlatList , Text, LogBox, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TodoItem  from '../components/TodoItem';
@@ -7,6 +7,8 @@ import { fb } from '../db_config';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
+import { AuthContext, AuthContextProvider } from "../hooks/AuthContext";
+
 export default function TodoScreen({ navigation }) {
     const [todos , setTodos] = useState(
         [
@@ -18,14 +20,21 @@ export default function TodoScreen({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [images, setImages] = useState([]);
 
+    const [user, setUser] = useContext(AuthContext);
+
     useEffect(() => {               
         //readTodos();
-        readTodosFirebase();
+        if(user){
         LogBox.ignoreLogs(['Setting a timer']);
+        readTodosFirebase();
+    }else{
+        navigation.navigate('AuthLoginScreen');
+    }
     },[]);
 
     const readTodosFirebase = async () => {
         fb.firestore().collection("todos")
+            .where("user_id", "==", user.uid)
             .get().then((querySnapshot) => {
                 const todos = querySnapshot.docs.map(doc => doc.data());
                 
@@ -64,6 +73,7 @@ export default function TodoScreen({ navigation }) {
             _id : '_' + Math.random().toString(36).substr(2, 9), //RANDOM NUMBER
             title : "", //Empty String
             completed : false,
+            user_id : user.uid,
         };
         //CLONE ARRAY
         let t = [...todos];

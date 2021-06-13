@@ -1,8 +1,11 @@
-import * as React from 'react';
+import React, { useContext  } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import LoginControl  from '../components/LoginControl';
+import { AuthContext, AuthContextProvider } from "../hooks/AuthContext";
 
-export default function HomeScreen({ navigation }) {    
+export default function HomeScreen({ navigation }) { 
+    const [user, setUser] = useContext(AuthContext);   
 
     return (
         <View style={{ flex: 1 }}>
@@ -24,6 +27,7 @@ export default function HomeScreen({ navigation }) {
                 <TouchableOpacity  onPress={() => navigation.navigate('UploadFileScreen') } >                    
                     <Text style={{ padding : 10 }}>Upload File</Text>
                 </TouchableOpacity>
+                <LoginControl isLoggedIn={user} navigation={navigation} />
             </View>  
             <View>                
                 <Button  
